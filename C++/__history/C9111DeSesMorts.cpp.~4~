@@ -1,0 +1,24 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+#include "C9111DeSesMorts.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+
+C9111::C9111()
+{
+	idCard = Register_Card(PCI_9111DG, 0);
+	initDone = idCard >= 0;
+}
+
+bool C9111::lire(U16 channel, F64 * value)
+{
+	if(initDone)
+	{
+		if(AI_VReadChannel(idCard, channel, AD_B_5_V, value) == NoError) //n'influ pas sur tension_lu
+			return true;
+	}
+
+	return false;
+}

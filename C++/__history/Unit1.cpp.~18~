@@ -1,0 +1,63 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+	card = new C9111();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+	F64 value;
+
+	if(card->lire(3, &value))
+	{
+		// coord nether 333 -181
+		value = (value* 7) - 35;
+		Memo1->Lines->Add(value);
+		//MessageBox(NULL, temp, "", 0);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{
+	F64 value;
+
+	if(card->lire(7, &value))
+	{
+		value = value * 10;
+		Memo3->Lines->Add(humidite);
+		//MessageBox(NULL, humidite, "", 0);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+	F64 value;
+
+	if(card->lire(4, &value))
+	{
+		UnicodeString str = value;
+		wchar_t * conv = str.c_str();
+		char * humidite = new char[str.Length() + 1];
+		wcstombs(humidite, conv, str.Length());
+		humidite[str.Length()] = '\0';
+		Memo2->Lines->Add(humidite);
+		//MessageBox(NULL, humidite, "", 0);
+	}
+}
+
+
+//---------------------------------------------------------------------------
+
